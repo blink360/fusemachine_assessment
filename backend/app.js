@@ -6,6 +6,6 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 //import routes
-app.use('/',require('./routes/getPremierLeagueScoresBySeason'));
+app.use("/",require("./routes/getPremierLeagueScoresBySeason"));
 
 module.exports = app;
