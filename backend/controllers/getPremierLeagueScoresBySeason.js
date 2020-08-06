@@ -1,5 +1,6 @@
 const axios = require("axios");
-
+const NodeCache = require("node-cache");
+const dataCache = new NodeCache();
 //Import functions
 const { getDetailsFromMatches } = require("../functions/getDetailsFromMatches");
 const { groupByClubs } = require("../functions/groupByClubs");
@@ -10,17 +11,24 @@ const urlForSeasonData = "https://raw.githubusercontent.com/openfootball/footbal
 
 
 exports.getPremierLeagueScoresBySeason = async (req, res) => {
+
+    console.log("received request");
     let { season } = req.body;
 
-    let dataForTheSeason = await axios.get(urlForSeasonData.replace("{season}", season));
+    if (dataCache.has(season)) {
+        res.status(200).json(dataCache.get(season));
+    }
+    else {
+        let dataForTheSeason = await axios.get(urlForSeasonData.replace("{season}", season));
+        let detailsForTheMatches = await getDetailsFromMatches(dataForTheSeason);
+        let detailsGroupedByClubs = await groupByClubs(detailsForTheMatches);
+        let finalData = await prepareFinalData(detailsGroupedByClubs);
+        
+        dataCache.set(season, finalData);
 
-    let detailsForTheMatches = await getDetailsFromMatches(dataForTheSeason);
+        res.status(200)
+            .json(finalData);
 
-    let detailsGroupedByClubs = await groupByClubs(detailsForTheMatches);
-
-    let finalData = await prepareFinalData(detailsGroupedByClubs);
-
-    res.status(200)
-        .json(finalData);
+    }
 }
 
