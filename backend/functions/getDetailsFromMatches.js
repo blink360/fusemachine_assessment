@@ -11,20 +11,20 @@ exports.getDetailsFromMatches = (array) => {
                             team_one_name: match.team1,
                             team_one_details:
                             {
-                                win: match.score.ft[0] > match.score.ft[1] ? 1 : 0,
-                                lose: match.score.ft[0] < match.score.ft[1] ? 1 : 0,
-                                draw: match.score.ft[0] === match.score.ft[1] ? 1 : 0,
-                                goalsFor: match.score.ft[0],
-                                goalsAgainst: match.score.ft[1]
+                                win: match.score ? (match.score.ft[0] > match.score.ft[1] ? 1 : 0) : null,
+                                lose: match.score ? (match.score.ft[0] < match.score.ft[1] ? 1 : 0) : null,
+                                draw: match.score ? (match.score.ft[0] === match.score.ft[1] ? 1 : 0) : null,
+                                goalsFor: match.score ? match.score.ft[0] : null,
+                                goalsAgainst: match.score ? match.score.ft[1] : null
                             },
                             team_two_name: match.team2,
                             team_two_details:
                             {
-                                win: match.score.ft[1] > match.score.ft[0] ? 1 : 0,
-                                lose: match.score.ft[1] < match.score.ft[0] ? 1 : 0,
-                                draw: match.score.ft[0] === match.score.ft[1] ? 1 : 0,
-                                goalsFor: match.score.ft[1],
-                                goalsAgainst: match.score.ft[0]
+                                win: match.score? (match.score.ft[1] > match.score.ft[0] ? 1 : 0) : null,
+                                lose: match.score? (match.score.ft[1] < match.score.ft[0] ? 1 : 0) : null,
+                                draw: match.score ? (match.score.ft[0] === match.score.ft[1] ? 1 : 0) : null,
+                                goalsFor: match.score ? match.score.ft[1] : null,
+                                goalsAgainst: match.score ? match.score.ft[0] : null
                             }
                         }
                     });

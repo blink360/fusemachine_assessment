@@ -23,11 +23,16 @@ exports.getPremierLeagueScoresBySeason = async (req, res) => {
         let detailsForTheMatches = await getDetailsFromMatches(dataForTheSeason);
         let detailsGroupedByClubs = await groupByClubs(detailsForTheMatches);
         let finalData = await prepareFinalData(detailsGroupedByClubs);
+        let finalSortedData =finalData.sort((a,b) => {return (b.points - a.points)});
+        finalSortedData.forEach(
+            (club,index) =>{
+                club.rankings = index + 1;
+            }
+        )
+        dataCache.set(season, finalSortedData);
         
-        dataCache.set(season, finalData);
-
         res.status(200)
-            .json(finalData);
+            .json(finalSortedData);
 
     }
 }
