@@ -4,21 +4,24 @@ import axios from 'axios';
 import {usePrevious} from './functions/usePrevious';
 import _ from 'lodash';
 import regeneratorRuntime from "regenerator-runtime";
-import NavigationBar from './components/NavigationBar';
+import AppHeader from './components/AppHeader';
+
 
 function App() {
     let [seasonData, setSeasonData] = React.useState({});
+    let [displayData, setDisplayData] = React.useState({});
     let [seasonToFetch, setSeasonToFetch] = React.useState("2018-19");
+    let [] = React.useState("")
     const prevSeasonData = usePrevious(seasonData);
     const prevSeasonToFetch = usePrevious(seasonToFetch);
 
     let fetchSeasonData = async () =>{
-        console.log(seasonToFetch);
         await axios.post("http://localhost:8000/getScoresBySeason", {
             season: seasonToFetch
         }).then(
             (response) => {
                 setSeasonData(response.data);
+                setDisplayData(response.data);
             }
         ).catch((err) => {
             console.log(err)
@@ -33,12 +36,12 @@ function App() {
             fetchSeasonData();
 
         }
-      }, [seasonData, prevSeasonData,seasonToFetch]);
+      }, [seasonData, prevSeasonData,seasonToFetch, displayData]);
 
     return (
         <div>
-            <NavigationBar setSeasonToFetch={setSeasonToFetch}/>
-            <LeagueStandingsTable data={seasonData}/>
+            <AppHeader/>
+            <LeagueStandingsTable data={displayData} seasonData={seasonData} setDisplayData={setDisplayData} seasonToFetch={seasonToFetch} setSeasonToFetch={setSeasonToFetch}/>
         </div>
     )
 }
