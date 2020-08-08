@@ -1,5 +1,6 @@
 import React from 'react'
-import { Modal } from 'react-bootstrap';
+import { Modal, Row, Col, Image } from 'react-bootstrap';
+import logoMapper from '../assets/javascript/logoMapper.json';
 
 function Popup(props) {
     let handleModalClose = () => {
@@ -12,12 +13,19 @@ function Popup(props) {
                     <Modal.Title>{props.modalData.name}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <p>Rank: {props.modalData.rankings} </p>
-                    <p>Matches Played: {props.modalData.matches_played}</p>
-                    <p>Wins: {props.modalData.wins}</p>
-                    <p>Losses: {props.modalData.losses}</p>
-                    <p>Draws: {props.modalData.draws}</p>
-                    <p>Total Goals Scored: {props.modalData.goals_for}</p>
+                    <Row>
+                        <Col xs={6}>
+                            <Image src={logoMapper[props.modalData.name]} alt="logo" style={{ width: "10em" }} />
+                        </Col>
+                        <Col xs={6}>
+                            <p>Rank: {props.modalData.rankings} </p>
+                            <p>Matches Played: {props.modalData.matches_played}</p>
+                            <p>Wins: {props.modalData.wins}</p>
+                            <p>Losses: {props.modalData.losses}</p>
+                            <p>Draws: {props.modalData.draws}</p>
+                            <p>Total Goals Scored: {props.modalData.goals_for}</p>
+                        </Col>
+                    </Row>
                 </Modal.Body>
             </Modal>
         </>

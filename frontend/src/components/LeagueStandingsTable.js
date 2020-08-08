@@ -1,8 +1,9 @@
 import React from 'react'
 import Table from 'react-bootstrap/Table';
-import { Form, FormControl, Button, InputGroup } from 'react-bootstrap';
+import { Form, Button, InputGroup, Image } from 'react-bootstrap';
 import { BsSearch, BsChevronDown, BsChevronUp } from "react-icons/bs";
 import styles from '../assets/css/TableStyles.module.css';
+import logoMapper from '../assets/javascript/logoMapper.json';
 
 function LeagueStandingsTable(props) {
     let seasons = ["2019-20", "2018-19", "2017-18", "2016-17", "2015-16", "2014-15", "2013-14"];
@@ -81,7 +82,7 @@ function LeagueStandingsTable(props) {
                     (club) => {
                         return (
                             <tr className={props.isSorted && !isSearching ? styles.descSorted : (!props.isSorted && !isSearching) ? styles.ascSorted : ""}>
-                                <td onClick={() => { handleModal(club) }}>{club.name}</td>
+                                <td onClick={() => { handleModal(club) }} style={{cursor: "pointer"}}> <Image className={styles.clubLogo} fluid src={logoMapper[club.name]} alt="logo"/> {club.name}</td>
                                 <td>{club.rankings}</td>
                                 <td>{club.matches_played}</td>
                                 <td>{club.wins}</td>

@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+#table{
+    font-family: 'Roboto', sans-serif;
+}
+
+#tableHeader{
+    background-color: #8b1359;
+    color:white;
+}
+
+.descSorted:nth-child(-n+4){
+    background-color: rgba(33, 207, 44, 0.3);
+}
+
+.descSorted:nth-last-child(-n+3){
+    background-color: rgba(211,35,32,0.3);
+}
+
+.ascSorted:nth-child(-n+3){
+    background-color: rgba(211,35,32,0.3);
+}
+.ascSorted:nth-last-child(-n+4){
+    background-color:  rgba(33, 207, 44, 0.3);
+}
+
+.clubLogo{
+    height: 3em;
+    width: 3em;
+}
