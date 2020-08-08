@@ -5,7 +5,7 @@ import Image from 'react-bootstrap/Image';
 function AppHeader() {
     return (
         <div style={{backgroundColor:"#3d083e"}}>
-            <Image src={logo} fluid className="img-responsive" style={{height:"10%",width:"10%",padding:"5px"}}/>
+            <Image src={logo} fluid style={{width:"20em"}}/>
         </div>
     )
 }
