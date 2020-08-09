@@ -28,3 +28,16 @@
     height: 3em;
     width: 3em;
 }
+
+#actionForm{
+    margin-top: 2em;
+}
+
+#actionFormLabel{
+    text-align: center;
+    font-style: italic;
+    color:#8b1359;
+    font-family: 'Roboto', sans-serif;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
