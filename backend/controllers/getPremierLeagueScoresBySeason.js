@@ -13,7 +13,7 @@ const urlForSeasonData = "https://raw.githubusercontent.com/openfootball/footbal
 exports.getPremierLeagueScoresBySeason = async (req, res) => {
 
     let { season } = req.body;
-    console.log("Fetching data for season: ",season);
+    console.log("Fetching data for season: ", season);
 
     if (dataCache.has(season)) {
         res.status(200).json(dataCache.get(season));
@@ -23,24 +23,29 @@ exports.getPremierLeagueScoresBySeason = async (req, res) => {
             .catch(
                 (error) => {
                     res.status(500).json({
-                        message:"Error occurred while fetching the data from OpenFootball API"
+                        message: "Error occurred while fetching the data from OpenFootball API",
                     })
+                    return;
                 }
             );
-        let detailsForTheMatches = await getDetailsFromMatches(dataForTheSeason);
-        let detailsGroupedByClubs = await groupByClubs(detailsForTheMatches);
-        let finalData = await prepareFinalData(detailsGroupedByClubs);
-        let finalSortedData = finalData.sort((a, b) => { return (b.points - a.points) });
-        finalSortedData.forEach(
-            (club, index) => {
-                club.rankings = index + 1;
-            }
-        )
-        dataCache.set(season, finalSortedData);
+        if (dataForTheSeason) {
+            let detailsForTheMatches = await getDetailsFromMatches(dataForTheSeason);
+            let detailsGroupedByClubs = await groupByClubs(detailsForTheMatches);
+            let finalData = await prepareFinalData(detailsGroupedByClubs);
+            let finalSortedData = finalData.sort((a, b) => { return (b.points - a.points) });
+            finalSortedData.forEach(
+                (club, index) => {
+                    club.rankings = index + 1;
+                }
+            )
+            dataCache.set(season, finalSortedData);
 
-        res.status(200)
-            .json(finalSortedData);
+            res.status(200)
+                .json(finalSortedData);
 
+        }
+        else return;
     }
+
 }
 
