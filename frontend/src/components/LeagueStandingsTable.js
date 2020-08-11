@@ -12,6 +12,8 @@ import {
 import { BsSearch, BsChevronDown, BsChevronUp } from "react-icons/bs";
 import styles from "../assets/css/TableStyles.module.css";
 import logoMapper from "../assets/javascript/logoMapper.json";
+import Spinner from "react-bootstrap/Spinner"
+import _ from "lodash";
 
 function LeagueStandingsTable(props) {
   let seasons = [
@@ -50,11 +52,11 @@ function LeagueStandingsTable(props) {
     props.setDisplayData(
       props.isSorted
         ? props.seasonData.sort((a, b) => {
-            return a.points - b.points;
-          })
+          return a.points - b.points;
+        })
         : props.seasonData.sort((a, b) => {
-            return b.points - a.points;
-          })
+          return b.points - a.points;
+        })
     );
   };
 
@@ -120,28 +122,28 @@ function LeagueStandingsTable(props) {
           </Col>
         </Row>
       </Container>
-
-      <Table responsive={true} hover id={styles.table}>
-        <thead id={styles.tableHeader}>
-          <tr>
-            <th>Position</th>
-            <th>Club</th>
-            <th>MP</th>
-            <th>W</th>
-            <th>D</th>
-            <th>L</th>
-            <th>GF</th>
-            <th>GA</th>
-            <th>GD</th>
-            <th onClick={() => sortFunction()}>
-              Pts {props.isSorted ? <BsChevronDown /> : <BsChevronUp />}
-            </th>
-            <th>Last 5 Matches</th>
-          </tr>
-        </thead>
-        <tbody>
-          {props.data
-            ? props.data.map((club) => {
+      {_.isEqual(props.prevSeasonToFetch, props.seasonToFetch) ?
+        <Table responsive={true} hover id={styles.table}>
+          <thead id={styles.tableHeader}>
+            <tr>
+              <th>Position</th>
+              <th>Club</th>
+              <th>MP</th>
+              <th>W</th>
+              <th>D</th>
+              <th>L</th>
+              <th>GF</th>
+              <th>GA</th>
+              <th>GD</th>
+              <th onClick={() => sortFunction()}>
+                Pts {props.isSorted ? <BsChevronDown /> : <BsChevronUp />}
+              </th>
+              <th>Last 5 Matches</th>
+            </tr>
+          </thead>
+          <tbody>
+            {props.data
+              ? props.data.map((club) => {
                 return (
                   <tr
                     key={club.name}
@@ -149,8 +151,8 @@ function LeagueStandingsTable(props) {
                       props.isSorted && !isSearching
                         ? styles.descSorted
                         : !props.isSorted && !isSearching
-                        ? styles.ascSorted
-                        : ""
+                          ? styles.ascSorted
+                          : ""
                     }
                   >
                     <td key={`${club.name}_rank`}>{club.rankings}</td>
@@ -161,13 +163,12 @@ function LeagueStandingsTable(props) {
                       }}
                       style={{ cursor: "pointer" }}
                     >
-                      {" "}
                       <Image
                         className={styles.clubLogo}
                         fluid
                         src={logoMapper[club.name]}
                         alt="logo"
-                      />{" "}
+                      />
                       {club.name}
                     </td>
                     <td key={`${club.name}_played`}>{club.matches_played}</td>
@@ -188,11 +189,10 @@ function LeagueStandingsTable(props) {
                                 m === "W"
                                   ? "green"
                                   : m === "L"
-                                  ? "red"
-                                  : "grey",
+                                    ? "red"
+                                    : "grey",
                             }}
                           >
-                            {" "}
                             {m}{" "}
                           </span>
                         );
@@ -201,9 +201,10 @@ function LeagueStandingsTable(props) {
                   </tr>
                 );
               })
-            : ""}
-        </tbody>
-      </Table>
+              : ""}
+          </tbody>
+        </Table>
+        : <Spinner animation="grow" id={styles.spinner}/>}
     </div>
   );
 }
