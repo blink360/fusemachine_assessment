@@ -35,7 +35,11 @@ function App() {
             }
         ).catch((err) => {
             console.log(err);
-            retry <=3 ? setTimeout(() => {fetchSeasonData()},2000) : "";
+            //If data fetching fails, retry upto 
+            retry <=3 ? setTimeout(() => {
+                fetchSeasonData();
+                retry++;
+            },2000) : "";
         })
     }
 
