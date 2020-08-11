@@ -6,7 +6,6 @@ import regeneratorRuntime from "regenerator-runtime";
 import AppHeader from './components/AppHeader';
 import { Container } from 'react-bootstrap';
 import Popup from './components/Popup';
-import Spinner from 'react-bootstrap/Spinner';
 
 function App() {
     //State for storing data from backend API.
@@ -44,6 +43,7 @@ function App() {
     }
 
     React.useEffect(() => {
+        retry = 0;
         fetchSeasonData();
     }, [seasonToFetch]);
 
